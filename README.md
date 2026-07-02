@@ -14,6 +14,14 @@ The latest release exposes:
 
 Applications download a selected pair only after an explicit user action, verify SHA-256, import it into local IndexedDB, and perform all later lookups locally.
 
+## Published Packs
+
+- `ja -> en`: 839,834 indexed forms from the pinned 2026-06-25 Kaikki/Wiktionary Japanese snapshot.
+
+The schemas and catalog support any language pair. Additional packs are published only after source licensing, normalization, deterministic-build, and lookup-quality checks pass; the catalog never claims unpublished pairs are comprehensive.
+
+Latest release: https://github.com/Chronostasis-zz/gentle-bridge-dictionary-packs/releases/latest
+
 ## Build A Kaikki Pack
 
 ```powershell
