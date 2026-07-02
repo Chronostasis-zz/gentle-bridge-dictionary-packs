@@ -1,0 +1,11 @@
+{
+  "name": "gentle-bridge-dictionary-packs",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build:kaikki": "node scripts/build-kaikki-pack.mjs",
+    "catalog": "node scripts/update-catalog.mjs",
+    "test": "node --test tests/*.test.mjs"
+  }
+}

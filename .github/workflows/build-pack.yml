@@ -1,0 +1,65 @@
+name: Build dictionary pack
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_language:
+        description: Source language code
+        required: true
+        default: ja
+      target_language:
+        description: Target language code represented by the upstream glosses
+        required: true
+        default: en
+      data_version:
+        description: Pinned upstream extraction date/version
+        required: true
+        default: 2026-06-25
+      source_url:
+        description: Direct Kaikki JSONL download URL
+        required: true
+        default: https://kaikki.org/dictionary/Japanese/kaikki.org-dictionary-Japanese.jsonl
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dictionary-pack-release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Download pinned source snapshot
+        run: curl --fail --location --retry 3 --output source.jsonl '${{ inputs.source_url }}'
+      - name: Build and test pack
+        run: |
+          npm test
+          node scripts/build-kaikki-pack.mjs \
+            --input source.jsonl \
+            --source '${{ inputs.source_language }}' \
+            --target '${{ inputs.target_language }}' \
+            --data-version '${{ inputs.data_version }}' \
+            --source-url '${{ inputs.source_url }}' \
+            --output dist
+      - name: Update catalog
+        run: node scripts/update-catalog.mjs dist catalog/catalog.json
+      - name: Commit catalog
+        run: |
+          git config user.name 'gentle-bridge-pack-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add catalog/catalog.json
+          git diff --cached --quiet || git commit -m 'Update dictionary pack catalog'
+          git push
+      - name: Publish release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view packs-v1 >/dev/null 2>&1 || gh release create packs-v1 --title 'Dictionary Packs v1' --notes 'Versioned local dictionary data packs.' --latest
+          gh release upload packs-v1 dist/*.jsonl.gz dist/*.manifest.json catalog/catalog.json --clobber
