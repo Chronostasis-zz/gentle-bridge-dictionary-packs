@@ -1,5 +1,7 @@
 name: Build dictionary pack
 
+# Release jobs are serialized because each run updates the shared catalog asset.
+
 on:
   workflow_dispatch:
     inputs:
