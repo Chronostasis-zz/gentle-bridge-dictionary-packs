@@ -1,5 +1,35 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-02T00:00:00.000Z",
-  "packs": []
+  "generatedAt": "2026-07-02T19:10:41.787Z",
+  "packs": [
+    {
+      "id": "lex-pair-ja-en",
+      "schemaVersion": 1,
+      "dataVersion": "2026-06-25",
+      "sourceLanguage": "ja",
+      "targetLanguage": "en",
+      "capabilities": [
+        "forms",
+        "lemmas",
+        "senses",
+        "glosses",
+        "equivalents"
+      ],
+      "assetUrl": "https://github.com/Chronostasis-zz/gentle-bridge-dictionary-packs/releases/download/packs-v1/lex-pair-ja-en.jsonl.gz",
+      "sizeBytes": 15812879,
+      "checksumSha256": "73fd58f33ee9bb89b00c7895bb1db5a99fd56413c0d7a8da75c9ed44a5c5ebd6",
+      "entryCount": 839834,
+      "generatedAt": "2026-07-02T19:10:41.653Z",
+      "compression": "gzip",
+      "sources": [
+        {
+          "id": "kaikki-enwiktionary",
+          "version": "2026-06-25",
+          "url": "https://kaikki.org/dictionary/Japanese/kaikki.org-dictionary-Japanese.jsonl",
+          "licenseId": "CC-BY-SA-3.0-and-GFDL",
+          "attribution": "Wiktionary contributors; structured extraction by Wiktextract/Kaikki.org"
+        }
+      ]
+    }
+  ]
 }
